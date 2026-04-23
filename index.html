@@ -23,13 +23,25 @@
     ::-webkit-scrollbar-track { background: #f8fafc; }
     ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
     ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    
+    /* Hide scrollbar for nav area but allow scroll */
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
   </style>
 </head>
 <body class="bg-slate-50 text-slate-800">
 
-  <div id="root"></div>
+  <!-- Root Div with Loading Indicator -->
+  <div id="root">
+    <div style="display: flex; justify-content: center; align-items: center; height: 100vh; flex-direction: column; gap: 1rem; color: #475569;">
+      <svg style="animation: spin 1s linear infinite; width: 40px; height: 40px; color: #2563eb;" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <circle opacity="0.25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path opacity="0.75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+      </svg>
+      <span style="font-weight: 600; font-family: sans-serif;">Memuat SmartSpend Blueprint...</span>
+      <style>@keyframes spin { to { transform: rotate(360deg); } }</style>
+    </div>
+  </div>
 
   <!-- React Code with ESM imports -->
   <script type="text/babel" data-type="module">
@@ -284,7 +296,7 @@
               const Icon = lens.icon;
               return (
                 <Card key={idx} className="p-6 border border-slate-200 hover:border-blue-400 transition-all hover:shadow-lg group bg-white relative overflow-hidden">
-                  <div className="absolute top-0 right-0 p-3 text-slate-100 font-black text-4xl group-hover:text-blue-50 transition-colors -z-0">
+                  <div className="absolute top-0 right-0 p-3 text-slate-100 font-black text-4xl group-hover:text-blue-50 transition-colors z-0">
                     {lens.id}
                   </div>
                   <div className="relative z-10">
@@ -488,26 +500,27 @@
           <aside className="w-full md:w-72 bg-slate-900 text-slate-300 md:min-h-screen flex flex-col shadow-[10px_0_30px_-15px_rgba(0,0,0,0.5)] z-20 shrink-0 relative">
             <div className="p-6 md:pt-10 border-b border-slate-800 bg-slate-950 flex flex-col items-center justify-center md:items-start relative overflow-hidden">
               <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-600 via-teal-400 to-amber-500"></div>
-              <div className="flex items-center mb-3">
-                <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-blue-800 rounded-xl flex items-center justify-center mr-3 shadow-lg border border-blue-500/30">
-                  <Building size={20} className="text-white" />
+              
+              <div className="w-full flex items-center justify-center md:justify-start mb-4 relative z-10">
+                <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-teal-500 rounded-xl flex items-center justify-center mr-3 shadow-lg border border-blue-400/30 shrink-0">
+                  <Zap size={20} className="text-white" />
                 </div>
-                <div>
-                  <h1 className="text-white font-extrabold text-xl tracking-tight leading-none">ASTRA</h1>
-                  <span className="text-blue-400 font-bold text-xs uppercase tracking-widest leading-none">Group</span>
+                <div className="flex flex-col">
+                  <h1 className="text-white font-black text-xl tracking-tight leading-none mb-1">ASTRA</h1>
+                  <span className="text-amber-400 font-bold text-[10px] uppercase tracking-widest leading-none">Smart Spend</span>
                 </div>
               </div>
             </div>
             
             <div className="flex-1 overflow-x-auto md:overflow-y-auto no-scrollbar py-6">
-              <div className="px-6 mb-4">
-                <h4 className="text-[10px] text-slate-500 font-bold uppercase tracking-widest mb-1">Initiative</h4>
-                <div className="text-white font-bold text-sm bg-slate-800 py-2 px-3 rounded-md border border-slate-700 shadow-inner flex items-center">
-                  <Zap size={14} className="text-amber-400 mr-2" /> SmartSpend
+              <div className="px-6 mb-4 hidden md:block">
+                <h4 className="text-[10px] text-slate-500 font-bold uppercase tracking-widest mb-1">Document Type</h4>
+                <div className="text-white font-bold text-xs bg-slate-800 py-2 px-3 rounded-md border border-slate-700 shadow-inner flex items-center">
+                  <Layers size={14} className="text-blue-400 mr-2" /> Strategic Blueprint
                 </div>
               </div>
 
-              <nav className="flex md:flex-col px-4 gap-2">
+              <nav className="flex md:flex-col px-4 gap-2 pb-2 md:pb-0">
                 {TAB_PAGES.map((tab) => {
                   const Icon = tab.icon;
                   const isActive = activeTabId === tab.id;
@@ -515,7 +528,7 @@
                     <button
                       key={tab.id}
                       onClick={() => setActiveTabId(tab.id)}
-                      className={`flex items-center px-4 py-3.5 rounded-xl transition-all whitespace-nowrap text-sm font-semibold w-full text-left relative overflow-hidden
+                      className={`flex items-center px-4 py-3.5 rounded-xl transition-all whitespace-nowrap text-sm font-semibold shrink-0 md:w-full text-left relative overflow-hidden
                         ${isActive 
                           ? 'bg-blue-600 text-white shadow-lg transform scale-[1.02]' 
                           : 'hover:bg-slate-800 text-slate-400 hover:text-slate-100'
